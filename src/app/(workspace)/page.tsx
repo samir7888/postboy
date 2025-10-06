@@ -7,8 +7,8 @@ import {
 } from "@/components/ui/resizable";
 import { useWorkspaceStore } from "@/modules/Layout/store";
 // import RequestPlayground from "@/modules/request/components/request-playground";
+import TabbedSidebar from "@/modules/workspace/components/sidebar";
 
-// import TabbedSidebar from "@/modules/workspace/components/sidebar";
 
 import { useGetWorkspace } from "@/modules/workspace/hooks/workspace";
 import { Loader } from "lucide-react";
@@ -28,14 +28,14 @@ const Page = () => {
 return (
   <ResizablePanelGroup direction="horizontal">
     <ResizablePanel defaultSize={65} minSize={40}>
-        {/* <RequestPlayground /> */}
+       <h1 className="text-2xl font-bold text-center mt-4">Request Playground</h1>
     </ResizablePanel>
 
     <ResizableHandle withHandle />
 
     <ResizablePanel defaultSize={35} maxSize={40} minSize={25} className="flex">
       <div className="flex-1">
-        {/* <TabbedSidebar currentWorkspace={currentWorkspace} /> */}
+        <TabbedSidebar currentWorkspace={currentWorkspace} />
       </div>
     </ResizablePanel>
   </ResizablePanelGroup>

@@ -13,9 +13,9 @@ import {
 } from "@/components/ui/select";
 import { Separator } from "@/components/ui/separator";
 import { Hint } from "@/components/ui/hint";
-import CreateWorkspace from "./create-workspace";
 import { useWorkspaceStore } from "@/modules/Layout/store";
 import { useWorkspaces } from "@/modules/workspace/hooks/workspace";
+import CreateWorkspace from "./create-workspace";
 
 
 const WorkSpace = () => {
