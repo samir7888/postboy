@@ -164,7 +164,7 @@ useEffect(() => {
                   ? "No collections found"
                   : "No collections available"}
               </div>
-            ) : (            del ".git\index.lock"
+            ) : (
               filteredCollections?.map((collection) => (
                 <div
                   key={collection.id}
