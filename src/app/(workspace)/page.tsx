@@ -6,7 +6,7 @@ import {
   ResizablePanelGroup,
 } from "@/components/ui/resizable";
 import { useWorkspaceStore } from "@/modules/Layout/store";
-// import RequestPlayground from "@/modules/request/components/request-playground";
+import RequestPlayground from "@/modules/request/components/request-playground";
 import TabbedSidebar from "@/modules/workspace/components/sidebar";
 
 
@@ -28,7 +28,7 @@ const Page = () => {
 return (
   <ResizablePanelGroup direction="horizontal">
     <ResizablePanel defaultSize={65} minSize={40}>
-       <h1 className="text-2xl font-bold text-center mt-4">Request Playground</h1>
+      <RequestPlayground  />
     </ResizablePanel>
 
     <ResizableHandle withHandle />
