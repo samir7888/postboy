@@ -1,5 +1,6 @@
 import { create } from "zustand";
 import { nanoid } from "nanoid";
+import { ResponseData } from "../components/response-viewer";
 
 interface SavedRequest {
   id: string;
@@ -9,6 +10,7 @@ interface SavedRequest {
   body?: string;
   headers?: string;
   parameters?: string;
+ 
 }
 
 export type RequestTab = {
@@ -34,17 +36,14 @@ type PlaygroundState = {
   updateTab: (id: string, data: Partial<RequestTab>) => void;
   markUnsaved: (id: string, value: boolean) => void;
   openRequestTab: (req: any) => void; // 👈 new
-  updateTabFromSavedRequest: (
-    tabId: string,
-    savedRequest: SavedRequest
-  ) => void;
-  //   responseViewerData:ResponseData | null;
-  //   setResponseViewerData: (data:ResponseData) => void
+  updateTabFromSavedRequest: (tabId: string, savedRequest: SavedRequest) => void;
+  responseViewerData:ResponseData | null;
+  setResponseViewerData: (data:ResponseData) => void
 };
 
 export const useRequestPlaygroundStore = create<PlaygroundState>((set) => ({
-  responseViewerData: null,
-  //   setResponseViewerData: (data) => set({ responseViewerData: data }),
+  responseViewerData:null,
+  setResponseViewerData: (data) => set({ responseViewerData: data }),
   tabs: [
     {
       id: nanoid(),
@@ -52,6 +51,7 @@ export const useRequestPlaygroundStore = create<PlaygroundState>((set) => ({
       method: "GET",
       url: "https://echo.hoppscotch.io",
       unsavedChanges: false,
+      
     },
   ],
   activeTabId: null,
@@ -69,8 +69,9 @@ export const useRequestPlaygroundStore = create<PlaygroundState>((set) => ({
         unsavedChanges: true,
       };
       return {
-        tabs: [...state.tabs, newTab],
+        tabs: [...state.tabs, newTab ],
         activeTabId: newTab.id,
+
       };
     }),
 
@@ -128,23 +129,24 @@ export const useRequestPlaygroundStore = create<PlaygroundState>((set) => ({
       };
     }),
 
-  updateTabFromSavedRequest: (tabId: string, savedRequest: SavedRequest) =>
-    set((state) => ({
-      tabs: state.tabs.map((t) =>
-        t.id === tabId
-          ? {
-              ...t,
-              id: savedRequest.id, // ✅ Replace temporary id with saved one
-              title: savedRequest.name,
-              method: savedRequest.method,
-              body: savedRequest?.body,
-              headers: savedRequest?.headers,
-              parameters: savedRequest?.parameters,
-              url: savedRequest.url,
-              unsavedChanges: false,
-            }
-          : t
-      ),
-      activeTabId: savedRequest.id, // ✅ keep active in sync
-    })),
+    updateTabFromSavedRequest: (tabId: string, savedRequest: SavedRequest) =>
+  set((state) => ({
+    tabs: state.tabs.map((t) =>
+      t.id === tabId
+        ? {
+            ...t,
+            id: savedRequest.id, // ✅ Replace temporary id with saved one
+            title: savedRequest.name,
+            method: savedRequest.method,
+            body: savedRequest?.body,
+            headers: savedRequest?.headers,
+            parameters: savedRequest?.parameters,
+            url: savedRequest.url,
+            unsavedChanges: false,
+          }
+        : t
+    ),
+    activeTabId: savedRequest.id, // ✅ keep active in sync
+  })),
+
 }));
