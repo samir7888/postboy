@@ -30,23 +30,28 @@ export const addRequestToCollection = async (
   return request;
 };
 
-export const saveRequest = async (collectionId: string, value: Request) => {
-  const request = await db.request.update({
+
+
+
+export const saveRequest = async (id:string, value:Request)=>{
+
+  console.log(value , id);
+const request =  await db.request.update({
     where: {
-      id: collectionId,
+      id: id
     },
     data: {
-      collectionId,
       name: value.name,
       method: value.method,
       url: value.url,
-      headers: value.headers,
       body: value.body,
+      headers: value.headers,
       parameters: value.parameters,
     },
   });
+
   return request;
-};
+}
 
 export const getAllRequestFromCollection = async (collectionId: string) => {
   const requests = await db.request.findMany({

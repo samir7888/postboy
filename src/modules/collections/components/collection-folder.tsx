@@ -26,6 +26,7 @@ import AddRequestCollectionModal from "./add-request-modal";
 import { useGetAllRequestFromCollection } from "@/modules/request/hooks/request";
 import { REST_METHOD } from "@prisma/client";
 import SaveRequestToCollectionModal from "./add-request-modal";
+import { useRequestPlaygroundStore } from "@/modules/request/store/useRequestStore";
 
 interface Props {
   collection: {
@@ -56,6 +57,7 @@ const CollectionFolder = ({ collection }: Props) => {
     [REST_METHOD.DELETE]: "text-red-500",
     [REST_METHOD.PATCH]: "text-orange-500",
   };
+const { openRequestTab } = useRequestPlaygroundStore();
 
   const hasRequests = requestData && requestData.length > 0;
 
@@ -170,6 +172,7 @@ const CollectionFolder = ({ collection }: Props) => {
                 {requestData.map((request: any) => (
                   <div
                     key={request.id}
+                    onClick={()=> openRequestTab(request)}
                     className="flex items-center justify-between py-2 px-3 hover:bg-zinc-900/50 rounded-md cursor-pointer group transition-colors"
                   >
                     <div className="flex items-center space-x-3 flex-1">

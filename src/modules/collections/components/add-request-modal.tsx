@@ -26,7 +26,7 @@ const SaveRequestToCollectionModal = ({
   setIsModalOpen,
   requestData = {
     name: "Untitled",
-    url: "www.xvideos.com",
+    url: "www.fb.com",
     method: REST_METHOD.GET,
   },
   initialName = "Untitled",
