@@ -176,11 +176,10 @@ const CollectionFolder = ({ collection }: Props) => {
                   >
                     <div className="flex items-center space-x-3 flex-1">
                       <div className="flex items-center space-x-2">
-                        {/* @ts-ignore */}
+
                         <span
-                          className={`text-xs font-bold px-2 py-1 rounded ${
-                            requestColorMap[request.method as keyof typeof requestColorMap] ?? ''
-                          } bg-zinc-800`}
+                          className={`text-xs font-bold px-2 py-1 rounded ${requestColorMap[request.method as keyof typeof requestColorMap] ?? ''
+                            } bg-zinc-800`}
                         >
                           {request.method}
                         </span>
