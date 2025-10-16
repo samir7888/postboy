@@ -46,7 +46,7 @@ const Modal: React.FC<ModalProps> = ({
 
   return (
     <Dialog open={isOpen} onOpenChange={onClose}>
-      <DialogContent className={`${size} ${className}`}>
+      <DialogContent className={`bg-black text-white ${size} ${className}`}>
         <DialogHeader>
           <DialogTitle>{title}</DialogTitle>
           {description && (
@@ -65,6 +65,7 @@ const Modal: React.FC<ModalProps> = ({
             <Button
               variant="outline"
               onClick={onClose}
+              className='text-black'
             >
               {cancelText}
             </Button>

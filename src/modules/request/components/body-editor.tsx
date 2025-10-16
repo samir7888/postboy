@@ -24,16 +24,16 @@ import {
 } from '@/components/ui/form'
 import { RotateCcw, Copy, Check, Code, AlignLeft, FileText, Sparkles } from 'lucide-react'
 import { cn } from '@/lib/utils'
-// import { useGenerateJsonBody } from '@/modules/ai/hooks/ai-suggestion'
+import { useGenerateJsonBody } from '@/modules/ai/hooks/ai-suggestion'
 
 import { useWorkspaceStore } from '@/modules/Layout/store'
 import { useRequestPlaygroundStore } from '../store/useRequestStore'
 
 
-// const MonacoEditor = dynamic(
-//   () => import('@monaco-editor/react'),
-//   { ssr: false }
-// )
+const MonacoEditor = dynamic(
+  () => import('@monaco-editor/react'),
+  { ssr: false }
+)
 
 const bodyEditorSchema = z.object({
   contentType: z.enum(['application/json', 'text/plain']),
@@ -41,10 +41,7 @@ const bodyEditorSchema = z.object({
 })
 
 type BodyEditorFormData = z.infer<typeof bodyEditorSchema>
-const MonacoEditor = dynamic(
-  () => import('@monaco-editor/react'),
-  { ssr: false }
-)
+
 interface BodyEditorProps {
   initialData?: {
     contentType?: 'application/json' | 'text/plain'
@@ -66,7 +63,7 @@ const BodyEditor: React.FC<BodyEditorProps> = ({
 
   const {tabs, activeTabId} = useRequestPlaygroundStore();
 
-//   const {mutateAsync , data , isPending , isError} = useGenerateJsonBody()
+  const {mutateAsync , data , isPending , isError} = useGenerateJsonBody()
 
   const form = useForm<BodyEditorFormData>({
     resolver: zodResolver(bodyEditorSchema),
@@ -99,6 +96,37 @@ const BodyEditor: React.FC<BodyEditorProps> = ({
 
   const handleGenerateClick = () => {
     setShowGenerateDialog(true);
+  }
+
+  const onGenerateBody = async (promptText: string) => {
+    try {
+     
+    
+      if (bodyValue) {
+        try {
+          JSON.parse(bodyValue);
+        } catch (e) {
+          
+          console.log('Invalid existing JSON, generating new schema');
+        }
+      }
+
+      const result = await mutateAsync({
+        prompt: promptText,
+        method: tabs.find(t => t.id === activeTabId)?.method || 'POST',
+        endpoint: tabs.find(t => t.id === activeTabId)?.url || '/',
+        context: `Generate a JSON body with the following requirements: ${promptText}`,
+       
+      });
+
+      if (result?.jsonBody) {
+        form.setValue('body', JSON.stringify(result.jsonBody, null, 2));
+      }
+      setShowGenerateDialog(false);
+      setPrompt('');
+    } catch (error) {
+      console.error('Failed to generate JSON body:', error);
+    }
   }
 
 
@@ -185,11 +213,11 @@ const BodyEditor: React.FC<BodyEditorProps> = ({
                   variant="ghost"
                   size="sm"
                   onClick={handleGenerateClick}
-                //   disabled={isPending}
+                  disabled={isPending}
                   className="h-7 px-2 text-xs text-zinc-400 hover:text-zinc-200 hover:bg-zinc-700"
                   title="Generate JSON Body"
                 >
-                  <Sparkles className={cn('h-3 w-3 animate-spin text-zinc-400' )} />
+                  <Sparkles className={cn('h-3 w-3', isPending ? 'animate-spin text-zinc-400' : 'text-green-400')} />
                 </Button>
               )}
 
@@ -308,11 +336,11 @@ const BodyEditor: React.FC<BodyEditorProps> = ({
             </Button>
             <Button
               type="submit"
-            //   onClick={() => onGenerateBody(prompt)}
-              disabled={!prompt.trim()}
+              onClick={() => onGenerateBody(prompt)}
+              disabled={!prompt.trim() || isPending}
               className="bg-indigo-500 hover:bg-indigo-600"
             >
-             Generate
+              {isPending ? 'Generating...' : 'Generate'}
             </Button>
           </DialogFooter>
         </DialogContent>
