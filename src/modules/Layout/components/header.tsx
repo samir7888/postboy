@@ -8,6 +8,7 @@ import { UserProps, WorkspaceProps } from '../types'
 import InviteMember from './invite-member'
 import WorkSpace from './workspace'
 
+const WorkSpaceComponent = WorkSpace as React.ComponentType<{ workspace: WorkspaceProps }>
 
 interface Props {
   user: UserProps
@@ -27,11 +28,10 @@ const Header = ({ user, workspace }: Props) => {
           <SearchBar />
         </div>
       </div>
-
       <div className='col-span-2 flex items-center justify-end space-x-2 hover:cursor-pointer hover:opacity-80'>
         <InviteMember />
-        {/* @ts-ignore */}
-        <WorkSpace workspace={workspace} />
+
+        <WorkSpaceComponent workspace={workspace} />
         <UserButton user={user} size='sm' />
       </div>
     </header>

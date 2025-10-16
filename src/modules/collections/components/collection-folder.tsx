@@ -57,7 +57,7 @@ const CollectionFolder = ({ collection }: Props) => {
     [REST_METHOD.DELETE]: "text-red-500",
     [REST_METHOD.PATCH]: "text-orange-500",
   };
-const { openRequestTab } = useRequestPlaygroundStore();
+  const { openRequestTab } = useRequestPlaygroundStore();
 
   const hasRequests = requestData && requestData.length > 0;
 
@@ -172,16 +172,15 @@ const { openRequestTab } = useRequestPlaygroundStore();
                 {requestData.map((request: any) => (
                   <div
                     key={request.id}
-                    onClick={()=> openRequestTab(request)}
+                    onClick={() => openRequestTab(request)}
                     className="flex items-center justify-between py-2 px-3 hover:bg-zinc-900/50 rounded-md cursor-pointer group transition-colors"
                   >
                     <div className="flex items-center space-x-3 flex-1">
                       <div className="flex items-center space-x-2">
-                        {/* @ts-ignore */}
+
                         <span
-                          className={`text-xs font-bold px-2 py-1 rounded ${
-                            requestColorMap[request.method as keyof typeof requestColorMap] ?? ''
-                          } bg-zinc-800`}
+                          className={`text-xs font-bold px-2 py-1 rounded ${requestColorMap[request.method as keyof typeof requestColorMap] ?? ''
+                            } bg-zinc-800`}
                         >
                           {request.method}
                         </span>
